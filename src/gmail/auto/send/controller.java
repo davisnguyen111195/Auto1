@@ -7,17 +7,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
+
 import javafx.stage.FileChooser;
 
-import javafx.stage.FileChooser.ExtensionFilter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 
 import java.io.*;
@@ -162,7 +159,7 @@ public class controller implements Initializable {
                 WebDriver driver = new ChromeDriver(options);
                 Actions ac = new Actions(driver);
                 driver.navigate().to(listTemplate.get(rd.nextInt(3)));
-                Thread.sleep(500);
+                Thread.sleep(1000);
                 ac.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).perform();
                 Thread.sleep(500);
                 ac.keyDown(Keys.CONTROL).sendKeys("c").keyUp(Keys.CONTROL).perform();
@@ -200,7 +197,6 @@ public class controller implements Initializable {
             FileWriter fileWriter = new FileWriter(pathSuccess);
             String dataRow = CSVFile.readLine();
 
-            System.out.println(dataRow.toString());
             Integer i = 1;
             while (dataRow != null) {
                 String[] dataArray = dataRow.split(",");
@@ -211,17 +207,17 @@ public class controller implements Initializable {
 
                 WebDriver driver = new ChromeDriver(options);
 
-                driver.get("https://accounts.google.com/signin");
+                driver.navigate().to("https://accounts.google.com/signin");
 
                 String pageSource = driver.getPageSource();
-                System.out.println("Page Source");
+
                 if (pageSource.contains("My Account gives you") == true || pageSource.contains("Tài khoản của tôi cho phép") == true) {
-                    System.out.println("close");
+
                     fileWriter.write(dataRow);
                     fileWriter.write("\n");
                     fileWriter.flush();
                 } else if (pageSource.contains("Đăng nhập - Tài khoản Google") == true || pageSource.contains("Sign in - Google Accounts") == true) {
-                    System.out.println("login");
+
                     driver.findElement(By.cssSelector("#identifierId")).sendKeys(dataArray[0]);
                     Thread.sleep(2000);
 
@@ -235,7 +231,7 @@ public class controller implements Initializable {
                     driver.findElement(By.cssSelector("#passwordNext > content > span")).click();
                     Thread.sleep(5000);
                     pageSource = driver.getPageSource();
-                    System.out.println("pageSource 2");
+
                     if (pageSource.contains("Confirm your recovery email") || pageSource.contains("Xác nhận email khôi phục của bạn")) {
                         driver.findElement(By.cssSelector("#view_container > form > div.mbekbe.bxPAYd > div >" +
                                 " div > div > ul > li:nth-child(1) > div > div.vdE7Oc")).click();
@@ -256,7 +252,7 @@ public class controller implements Initializable {
                     }
                 }
                 dataRow = CSVFile.readLine();
-                driver.close();
+                driver.quit();
                 Thread.sleep(Integer.parseInt(txtDelay.getText()));
                 i++;
             }
@@ -264,7 +260,7 @@ public class controller implements Initializable {
             CSVFile.close();
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
         }
     }
 
