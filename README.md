@@ -1,1 +1,1 @@
-Auto1
+GmailAutoSend

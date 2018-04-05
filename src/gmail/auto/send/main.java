@@ -14,10 +14,12 @@ public class main extends Application {
     }
 
 
-
+    public static String username = System.getProperty("user.name");
     @Override
     public void start(Stage primaryStage) {
         try {
+            System.out.println("user-data-dir=/home/" + main.username +"/.config/google-chrome/Profile ");
+
             Parent root = FXMLLoader.load(getClass()
                     .getResource("/gmail/auto/send/GUI.fxml"));
             primaryStage.setTitle("Gmail Auto Send");

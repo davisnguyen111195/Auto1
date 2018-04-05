@@ -1,11 +1,15 @@
 package gmail.auto.send;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 
 public class data {
 
-    public static ArrayList<data> listData;
+    public static List<data> listData;
+    public static List<String> listTemplate;
+    public static List<String> listSubject;
+    public static List<String> listEmail;
     private String user;
     private String pass;
     private String recoveryMail;
@@ -13,9 +17,6 @@ public class data {
     public data() {
 
     }
-
-
-
     public data(String user, String pass, String recoveryMail) {
         this.user = user;
         this.pass = pass;
